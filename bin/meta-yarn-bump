@@ -1,32 +1,49 @@
 #!/usr/bin/env node
+const getPackageDependencies = require('../lib/getPackageDependencies');
+const _ = require('lodash');
 
-const fs = require('fs');
-const program = require('commander');
-const debug = require('debug')('meta-yarn-bump');
 const getMetaFile = require('get-meta-file');
 const loop = require('loop');
 const path = require('path');
-const util = require('util');
 
 if (process.argv[2] === '--help') {
-    return console.log(`\n  usage:\n\n    meta yarn bump $PACKAGE $VERSION\n`);
-}
-
-const package = process.argv[2],
-    version = process.argv[3] || null
-;
-
-if (!package && typeof package !== 'string') {
-    return console.log(`\n  package name is required!\n`);
+    return console.log(`\n  usage:\n\n    meta yarn bump\n`);
 }
 
 const meta = getMetaFile();
+const metaLocation = path.join(process.cwd(), '.meta');
 const projects = meta.projects;
-const folders = Object.keys(projects).map((folder) => { return path.resolve(folder); });
+const packages = [];
 
-folders.unshift(process.cwd());
-
+// release vene-shared
 loop({
-    command: `yarn install ${package}${version && '@'${version}} --save`,
-    directories: folders
+    command: `yarn release`,
+    directories: [ path.join(metaLocation, '..', 'vene-shared') ]
 });
+
+_.forEach(Object.keys(projects), (folder) => {
+    const childPackageJson = require(path.join(metaLocation, '..', folder, 'package.json'));
+
+    packages.push({
+        name: childPackageJson.name,
+        folder: path.join(metaLocation, '..', folder),
+        dependencies: childPackageJson.dependencies,
+        devDependencies: childPackageJson.devDependencies,
+    });
+});
+
+// // check where package must be upgraded
+const dependencies = getPackageDependencies(packages);
+
+_.forEach(dependencies, dep => {
+    const pckg = projects[dep.source]
+        ? `git+ssh://${projects[dep.source]}`
+        : dep.source
+    ;
+
+    // upgrade package in every folder that it requires that
+    loop({
+        command: `yarn add ${pckg}`,
+        directories: [ dep.targetFolder ]
+    })
+})
