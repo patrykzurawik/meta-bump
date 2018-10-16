@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const program = require('commander');
-const debug = require('debug')('meta-yarn-install');
+const debug = require('debug')('meta-yarn-bump');
 const getMetaFile = require('get-meta-file');
 const loop = require('loop');
 const path = require('path');
