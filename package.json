@@ -5,6 +5,7 @@
   "main": "index.js",
   "bin": {
     "meta-yarn": "./bin/meta-yarn",
+    "meta-yarn-bump": "./bin/meta-yarn-bump",
     "meta-yarn-clean": "./bin/meta-yarn-clean",
     "meta-yarn-install": "./bin/meta-yarn-install",
     "meta-yarn-link": "./bin/meta-yarn-link"
