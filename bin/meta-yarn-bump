@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const program = require('commander');
+const debug = require('debug')('meta-yarn-install');
+const getMetaFile = require('get-meta-file');
+const loop = require('loop');
+const path = require('path');
+const util = require('util');
+
+if (process.argv[2] === '--help') {
+    return console.log(`\n  usage:\n\n    meta yarn bump $PACKAGE $VERSION\n`);
+}
+
+const package = process.argv[2],
+    version = process.argv[3] || null
+;
+
+if (!package && typeof package !== 'string') {
+    return console.log(`\n  package name is required!\n`);
+}
+
+const meta = getMetaFile();
+const projects = meta.projects;
+const folders = Object.keys(projects).map((folder) => { return path.resolve(folder); });
+
+folders.unshift(process.cwd());
+
+loop({
+    command: `yarn install ${package}${version && '@'${version}} --save`,
+    directories: folders
+});
