@@ -1,0 +1,87 @@
+#!/usr/bin/env node
+
+const getPackageDependencies = require('../lib/getPackageDependencies');
+const _ = require('lodash');
+
+const getMetaFile = require('get-meta-file');
+const loop = require('loop');
+const path = require('path');
+
+if (process.argv[2] === '--help') {
+    return console.log(`\n  usage:\n\n    meta yarn bump\n`);
+}
+
+const projectToBump = process.argv[2];
+
+if (!projectToBump) {
+    return console.log(`\n  Missing project name as an argument.`);
+}
+
+const meta = getMetaFile();
+const metaLocation = path.join(process.cwd(), '.meta');
+const projects = meta.projects;
+const packages = [];
+
+_.forEach(Object.keys(projects), (folder) => {
+    const childPackageJson = require(path.join(metaLocation, '..', folder, 'package.json'));
+
+    packages.push({
+        name: childPackageJson.name,
+        folder: path.join(metaLocation, '..', folder),
+        dependencies: childPackageJson.dependencies,
+        devDependencies: childPackageJson.devDependencies,
+    });
+});
+
+// check where packages must be upgraded
+const dependencies = getPackageDependencies(packages).filter((d) => d.source === projectToBump);
+let foldersToLink = _.union(dependencies.map((d) => d.sourceFolder));
+
+// release all packages that will be upgraded
+loop({
+    command: `
+        # Get new tags from remote
+        git fetch --tags
+        # Get latest tag name
+        latestTag=$(git describe --tags \`git rev-list --tags --max-count=1\`)
+        # remove 'v' from latestTag
+        latestTag=\${latestTag//v}
+
+        echo "Enter release version (latest is $latestTag): "
+        read VERSION
+
+        read -p "Releasing $VERSION - are you sure? (y/n)" -n 1 -r
+        echo    # (optional) move to a new line
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+          echo "Releasing $VERSION ..."
+
+          # commit
+          npm version $VERSION --message "[release] $VERSION"
+
+          # publish
+          git push origin refs/tags/v$VERSION
+          git push
+        fi
+    `,
+    directories: foldersToLink
+});
+
+_.forEach(dependencies, dep => {
+    const pckg = projects[dep.source]
+        ? `git+ssh://${projects[dep.source]}`
+        : dep.source
+    ;
+
+    // upgrade package in every folder that it requires that
+    loop({
+        command: `
+            cd ${dep.sourceFolder}
+            latestTag=$(git describe --tags \`git rev-list --tags --max-count=1\`) && latestTag=\${latestTag//v}
+            cd ${dep.targetFolder}
+            npm add ${pckg}#$latestTag
+        `,
+        directories: [ dep.targetFolder ]
+    });
+});
+

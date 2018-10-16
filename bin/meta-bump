@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+let loaded = false;
+
+if (loaded) return process.kill();
+
+const program = require('commander');
+const debug = require('debug')('meta-bump');
+
+program
+  .command('bump yarn PROJECT_NAME', 'bump given version of specified package in meta and child repositories using yarn')
+  .command('bump npm PROJECT_NAME', 'bump given version of specified package in meta and child repositories using npm')
+  .parse(process.argv);
+
+loaded = true;

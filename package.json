@@ -1,24 +1,25 @@
 {
-  "name": "meta-yarn",
+  "name": "meta-bump",
   "version": "0.0.5",
-  "description": "yarn plugin for meta",
+  "description": "bump plugin for meta",
   "main": "index.js",
   "bin": {
-    "meta-yarn": "./bin/meta-yarn",
-    "meta-yarn-bump": "./bin/meta-yarn-bump",
-    "meta-yarn-clean": "./bin/meta-yarn-clean",
-    "meta-yarn-install": "./bin/meta-yarn-install",
-    "meta-yarn-link": "./bin/meta-yarn-link"
+    "meta-bump": "bin/meta-bump",
+    "meta-bump-yarn": "bin/meta-bump-yarn",
+    "meta-bump-npm": "bin/meta-bump-npm"
   },
   "scripts": {
-    "test": "yarn test"
+    "test": "yarn test",
+    "release": "./release.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/mateodelnorte/meta-yarn.git"
+    "url": "git+ssh://git@github.com/mateodelnorte/meta-bump.git"
   },
   "keywords": [
+    "bump",
     "yarn",
+    "npm",
     "meta",
     "repo",
     "repository",
@@ -30,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/mateodelnorte/meta/issues"
   },
-  "homepage": "https://github.com/mateodelnorte/meta-yarn#readme",
+  "homepage": "https://github.com/mateodelnorte/meta-bump#readme",
   "dependencies": {
     "async": "^2.1.4",
     "chalk": "^1.1.3",
