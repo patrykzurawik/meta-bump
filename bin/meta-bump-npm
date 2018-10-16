@@ -79,7 +79,7 @@ _.forEach(dependencies, dep => {
             cd ${dep.sourceFolder}
             latestTag=$(git describe --tags \`git rev-list --tags --max-count=1\`) && latestTag=\${latestTag//v}
             cd ${dep.targetFolder}
-            npm add ${pckg}#$latestTag
+            npm add ${pckg}@$latestTag
         `,
         directories: [ dep.targetFolder ]
     });
