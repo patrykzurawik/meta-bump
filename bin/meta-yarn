@@ -8,6 +8,7 @@ const program = require('commander');
 const debug = require('debug')('meta-yarn');
 
 program
+  .command('bump', 'bump given or latest version of specified package in meta and child repositories')
   .command('clean', 'delete the node_modules folder in meta and child repositories')
   .command('install', 'yarn install meta and child repositories')
   .command('link [--all]', 'yarn link child repositories where used within child and meta repositories')
