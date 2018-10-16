@@ -8,7 +8,7 @@ const loop = require('loop');
 const path = require('path');
 
 if (process.argv[2] === '--help') {
-    return console.log(`\n  usage:\n\n    meta yarn bump\n`);
+    return console.log(`\n  usage:\n\n    meta-bump-npm PROJECT_NAME\n`);
 }
 
 const projectToBump = process.argv[2];

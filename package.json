@@ -4,7 +4,6 @@
   "description": "bump plugin for meta",
   "main": "index.js",
   "bin": {
-    "meta-bump": "bin/meta-bump",
     "meta-bump-yarn": "bin/meta-bump-yarn",
     "meta-bump-npm": "bin/meta-bump-npm"
   },
