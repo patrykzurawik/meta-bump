@@ -4,8 +4,19 @@ Bump plugin for [meta](https://github.com/mateodelnorte/meta)
 
 ## Usage
 
-Given that your package.json shared dependency looks like e.g.
+Given that your shared dependency definition looks like e.g.
 
+**.meta**
+```js
+{
+  "projects": {
+    "shared-package": "git+ssh://git@github.com:meta-project/shared-package.git",
+    "consumer-package": "git+ssh://git@github.com:meta-project/consumer-package.git"
+  }
+}
+```
+
+**package.json** in e.g. `consumer-package`
 ```
 "dependencies": {
     "shared-package": "git+ssh://git@github.com:npm/cli.git#1.0.0"
@@ -30,3 +41,5 @@ You use `meta bump-[yarn|npm]` like this
 
     -h, --help  output usage information
 ```
+
+e.g. `meta bump-yarn shared-package`
