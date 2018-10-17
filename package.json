@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/mateodelnorte/meta-bump.git"
+    "url": "git+ssh://git@github.com/pzurawik/meta-bump.git"
   },
   "keywords": [
     "bump",
@@ -28,9 +28,9 @@
   "author": "hi@iammattwalters.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mateodelnorte/meta/issues"
+    "url": "https://github.com/pzurawik/meta-bump/issues"
   },
-  "homepage": "https://github.com/mateodelnorte/meta-bump#readme",
+  "homepage": "https://github.com/pzurawik/meta-bump#readme",
   "dependencies": {
     "async": "^2.1.4",
     "chalk": "^1.1.3",
