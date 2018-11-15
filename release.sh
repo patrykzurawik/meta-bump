@@ -5,7 +5,7 @@ set -e
 # Get new tags from remote
 git fetch --tags
 # Get latest tag name
-latestTag=$(git describe --abbrev=0 --tags)
+latestTag=$(git describe --tags $(git rev-list --tags --max-count=1))
 # remove 'v' from latestTag
 latestTag=${latestTag#"v"}
 
