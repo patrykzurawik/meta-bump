@@ -1,6 +1,6 @@
 {
   "name": "meta-bump",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "bump plugin for meta",
   "main": "index.js",
   "bin": {
