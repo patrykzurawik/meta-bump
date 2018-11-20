@@ -46,3 +46,7 @@ You use `meta bump-[yarn|npm]` like this
 ```
 
 e.g. `meta bump-yarn shared-package`
+
+## Example meta repository
+
+https://github.com/karol-f/meta-repository
