@@ -44,8 +44,8 @@ loop({
         git fetch --tags
         # Get latest tag name
         latestTag=$(git rev-list --tags --max-count=1)
-        [ -n "$latestTag" ] && latestTag=$(git describe --tags $latestTag) && latestTag=${latestTag#"v"} # remove 'v' from latestTag
-        echo "Enter release version (latest is ${latestTag:-0.0.0}): "
+        [ -n "$latestTag" ] && latestTag=$(git describe --tags $latestTag) && latestTag=\${latestTag#"v"} # remove 'v' from latestTag
+        echo "Enter release version (latest is \${latestTag:-0.0.0}): "
         read VERSION
 
         read -p "Releasing $VERSION - are you sure? (y/n)" -n 1 -r
@@ -82,4 +82,3 @@ _.forEach(dependencies, dep => {
         directories: [ dep.targetFolder ]
     });
 });
-
