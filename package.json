@@ -38,6 +38,7 @@
     "commander": "^2.9.0",
     "debug": "^2.3.3",
     "get-meta-file": "^0.0.5",
+    "git-url-parse": "^11.1.2",
     "lodash": "^4.17.4",
     "loop": "^3.0.6",
     "meta-exec": "^0.0.8"
