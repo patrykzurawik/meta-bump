@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-
 set -e
+
+npm run transpile
 
 # Get new tags from remote
 git fetch --tags
