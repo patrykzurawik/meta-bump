@@ -66,8 +66,9 @@ loop({
 });
 
 _.forEach(dependencies, dep => {
+    // package can be one of the project imported 
     const pckg = projects[dep.source]
-        ? `git+ssh://${projects[dep.source]}`
+        ? dep.sourceUrlWithProtocol
         : dep.source
     ;
 
